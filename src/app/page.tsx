@@ -1,3 +1,4 @@
+"use client"
 import Header from '../Components/Header';
 import Sidebar from '../Components/Sidebar';
 import SummaryCard from '../Components/SummaryCard';
@@ -7,8 +8,15 @@ import prof from "../Assets/Images/profile-zoom.png";
 import prof2 from "../Assets/Images/profile2.png";
 import prof3 from "../Assets/Images/profile3.png";
 import prof4 from "../Assets/Images/profile4.png";
+import menInfo from "../Assets/Icons/iconButtonOutlinedStandard.svg";
+import down from "../Assets/Images/caret-down.png";
+import Link from 'next/link';
+import { useState } from 'react';
 
 export default function Home() {
+  const [hamburgerMenu, setHamburgerMenu] = useState<boolean>(false);
+  const [filter, setFilter] = useState<string>("");
+
   return (
     // <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
     //   <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
@@ -108,53 +116,56 @@ export default function Home() {
     //   </footer>
     // </div>
     <div className="max-h-screen h-screen">
-      <Header />
+      <Header hamburgerMenu={setHamburgerMenu} menuState={hamburgerMenu} filter={setFilter}/>
       <div className="flex gap-12 h-[calc(100vh-74px)]">
         {/* Sidebar and Main Content */}
-        <div className="w-[25%] h-full">
+        {hamburgerMenu && <div className="w-[25%] h-full">
           <Sidebar />
-        </div>
-        <main className="flex-1 p-8 bg-white h-full overflow-y-auto no-scrollbar">
+        </div>}
+        <main className="flex-1 px-2 py-8 sm:px-8 bg-white h-full overflow-y-auto no-scrollbar">
           {/* Wallet Ledger Header */}
           <div className="mb-8">
-            <div className="flex items-center justify-between mb-4">
-              <div>
-                <h1 className="text-3xl font-bold text-gray-800 mb-2">Wallet Ledger</h1>
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-2 h-2 bg-green-500 rounded-full"></div>
-                  <span className="text-sm text-gray-600">Active</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <div className="flex -space-x-2">
-                    <div className="w-8 h-8 rounded-full bg-blue-300 border-2 border-white z-[3]"><Image src={prof} alt="" width={32} height={32}/> </div>
-                    <div className="w-8 h-8 rounded-full bg-green-300 border-2 border-white z-[2]"><Image src={prof2} alt="" width={32} height={32}/> </div>
-                    <div className="w-8 h-8 rounded-full bg-purple-300 border-2 border-white z-[1]"><Image src={prof3} alt="" width={32} height={32}/> </div>
-                    <div className="w-8 h-8 rounded-full bg-yellow-300 border-2 border-white"><Image src={prof4} alt="" width={32} height={32}/> </div>
+            <div className="flex flex-col mb-4">
+              <div className="flex items-center justify-between mb-7 flex-wrap gap-4">
+                <div className="flex items-center gap-4 flex-wrap">
+                  <span className="text-[34px] font-bold text-[#1B2528] flex items-center gap-1">
+                    Wallet Ledger
+                    <Image src={down} alt="Down" width={24} height={24} />
+                  </span>
+                  <div className="flex items-center gap-2 bg-[#34616F09] rounded-2xl py-1 px-2">
+                    <div className="w-[6px] h-[6px] bg-[#087A2E] rounded-full"></div>
+                    <span className="text-[15px] font-medium text-[#1B2528]">Active</span>
                   </div>
-                  <span className="text-sm text-gray-600">Ava, Liam, Noah +12 others</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <button className="px-4 py-2 bg-[#4B8B9F] text-[#020303] rounded-[16px] font-medium hover:bg-[#428ca3]">
+                    Share
+                  </button>
+                  <button className="">
+                    <Image src={menInfo} alt="Settings" width={36} height={36} />
+                  </button>
                 </div>
               </div>
-              <div className="flex items-center gap-3">
-                <button className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                  Share
-                </button>
-                <button className="p-2 hover:bg-gray-100 rounded">
-                  <svg className="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z" />
-                  </svg>
-                </button>
+              <div className="flex items-center gap-2">
+                <div className="flex -space-x-2">
+                  <div className="w-8 h-8 rounded-full bg-blue-300 border-2 border-white z-[3]"><Image src={prof} alt="" width={32} height={32}/> </div>
+                  <div className="w-8 h-8 rounded-full bg-green-300 border-2 border-white z-[2]"><Image src={prof2} alt="" width={32} height={32}/> </div>
+                  <div className="w-8 h-8 rounded-full bg-purple-300 border-2 border-white z-[1]"><Image src={prof3} alt="" width={32} height={32}/> </div>
+                  <div className="w-8 h-8 rounded-full bg-yellow-300 border-2 border-white"><Image src={prof4} alt="" width={32} height={32}/> </div>
+                </div>
+                <span className="text-sm text-gray-600">Ava, Liam, Noah +12 others</span>
               </div>
             </div>
             
             {/* Tabs */}
             <div className="border-b border-gray-200">
               <nav className="-mb-px flex space-x-8">
-                <a href="#" className="border-b-2 border-blue-500 text-blue-600 py-2 px-1 text-sm font-medium">
+                <Link href="/" className="border-b-2 border-[#4B8B9F] text-[#4B8B9F] py-2 px-1 text-[15px] font-medium">
                   Overview
-                </a>
-                <a href="#" className="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-1 text-sm font-medium">
+                </Link>
+                <Link href="/" className="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 py-2 px-1 text-[15px] font-medium">
                   Transactions
-                </a>
+                </Link>
               </nav>
             </div>
           </div>
@@ -192,7 +203,7 @@ export default function Home() {
 
           {/* Transaction Table */}
           <div>
-            <TransactionTable />
+            <TransactionTable filter={filter}/>
           </div>
         </main>
       </div>

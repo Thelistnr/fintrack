@@ -14,34 +14,34 @@ const transactions: Transaction[] = [
   { id: '9', date: '2023-10-09', remark: 'Insurance', amount: -200, currency: 'USD', type: 'Debit' },
 ];
 
-export default function TransactionTable({ transactions: propTransactions }: TransactionTableProps = {}) {
+export default function TransactionTable({ transactions: propTransactions, filter}: TransactionTableProps) {
   const displayTransactions = propTransactions || transactions;
   
   return (
     <div className="rounded-lg">
       <div className="overflow-x-auto">
-        <table className="w-full">
+        <table className=" min-w-[580px] w-full">
           <thead>
             <tr className="border-b border-[#49656E20] border-spacing-[18px]">
-              <th className="py-2 text-left text-[13px] mr-[18px] font-medium text-[#15272D9e]">
+              <th className="py-2 text-left text-[13px] mr-[18px] pr-2 font-medium text-[#15272D9e]">
                 <button className="flex items-center">
                   Date
                   <Image src={carret} alt="" width={24} height={24} className='cursor-pointer'/>
                 </button>
               </th>
-              <th className="py-2 text-left text-[13px] mr-[18px] font-medium text-[#15272D9e] w-max">
+              <th className="py-2 text-left text-[13px] mr-[18px] pr-2 font-medium text-[#15272D9e] w-max">
                 <button className="flex items-center">
                   Remark
                   <Image src={carret} alt="" width={24} height={24} className='cursor-pointer'/>
                 </button>
               </th>
-              <th className="py-2 text-right text-[13px] mr-[18px] font-medium text-[#15272D9e] w-max">
+              <th className="py-2 text-right text-[13px] mr-[18px] pr-2 font-medium text-[#15272D9e] w-max">
                 <button className="flex items-center">
                   Amount
                   <Image src={carret} alt="" width={24} height={24} className='cursor-pointer'/>
                 </button>
               </th>
-              <th className="py-2 text-left text-[13px] mr-[18px] font-medium text-[#15272D9e] w-max">
+              <th className="py-2 text-left text-[13px] mr-[18px] pr-2 font-medium text-[#15272D9e] w-max">
                 <button className="flex items-center">
                   Currency
                   <Image src={carret} alt="" width={24} height={24} className='cursor-pointer'/>
@@ -56,18 +56,42 @@ export default function TransactionTable({ transactions: propTransactions }: Tra
             </tr>
           </thead>
           <tbody>
-            {displayTransactions.map((transaction) => (
+            {filter && filter.length > 0 ? displayTransactions.filter((data) => data.remark.toLowerCase().includes(filter.toLowerCase())).map((transaction) => (
               <tr key={transaction.id} className="hover:bg-gray-50 border-spacing-[18px]">
-                <td className="border-b border-[#49656E20] py-[18px] text-sm text-[#1B2528] mr-[18px] w-[50%]">
+                <td className="border-b border-[#49656E20] py-[18px] text-sm text-[#1B2528] pr-2 mr-[18px] w-[30%] sm:w-[50%]">
                   {transaction.date}
                 </td>
-                <td className="border-b border-[#49656E20] py-[18px] text-sm text-[#1B2528] mr-[18px]">
+                <td className="border-b border-[#49656E20] py-[18px] text-sm text-[#1B2528] pr-2 mr-[18px] min-w-max">
                   {transaction.remark}
                 </td>
-                <td className="border-b border-[#49656E20] py-[18px] text-sm text-[#1B2528] mr-[18px]">
+                <td className="border-b border-[#49656E20] py-[18px] text-sm text-[#1B2528] pr-2 mr-[18px] min-w-max">
                   {transaction.amount >= 0 ? `$${transaction.amount.toLocaleString()}` : `-$${Math.abs(transaction.amount).toLocaleString()}`}
                 </td>
-                <td className="border-b border-[#49656E20] py-[18px] text-sm text-[#1B2528] mr-[18px]">
+                <td className="border-b border-[#49656E20] py-[18px] text-sm text-[#1B2528] pr-2 mr-[18px] min-w-max">
+                  {transaction.currency}
+                </td>
+                <td className="border-b border-[#49656E20] py-[18px] mr-[18px] w-max">
+                  <div className="flex items-center gap-2 bg-[#34616F09] text-[#1B2528] rounded-full py-1 px-2">
+                    <div className={`w-[6px] h-[6px] rounded-full ${transaction.type === 'Credit' ? 'bg-[#087A2E]' : 'bg-[#C6381B]'}`}></div>
+                    <span className={`text-[15px] font-medium`}>
+                      {transaction.type}
+                    </span>
+                  </div>
+                </td>
+              </tr>
+            )) :
+            displayTransactions.map((transaction) => (
+              <tr key={transaction.id} className="hover:bg-gray-50 border-spacing-[18px]">
+                <td className="border-b border-[#49656E20] py-[18px] text-sm text-[#1B2528] pr-2 mr-[18px] w-[30%] sm:w-[50%]">
+                  {transaction.date}
+                </td>
+                <td className="border-b border-[#49656E20] py-[18px] text-sm text-[#1B2528] pr-2 mr-[18px] min-w-max">
+                  {transaction.remark}
+                </td>
+                <td className="border-b border-[#49656E20] py-[18px] text-sm text-[#1B2528] pr-2 mr-[18px] min-w-max">
+                  {transaction.amount >= 0 ? `$${transaction.amount.toLocaleString()}` : `-$${Math.abs(transaction.amount).toLocaleString()}`}
+                </td>
+                <td className="border-b border-[#49656E20] py-[18px] text-sm text-[#1B2528] pr-2 mr-[18px] min-w-max">
                   {transaction.currency}
                 </td>
                 <td className="border-b border-[#49656E20] py-[18px] mr-[18px] w-max">

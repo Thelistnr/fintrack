@@ -27,4 +27,5 @@ export interface SummaryCardProps {
 
 export interface TransactionTableProps {
   transactions?: Transaction[];
+  filter: string;
 }
